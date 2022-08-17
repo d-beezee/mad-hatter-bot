@@ -20,16 +20,16 @@ class Characters {
     return this.fullList.map((character) => character.roleName);
   }
   get cluesChannels() {
-    const results: { [key: string]: string[] } = {};
+    const results: { [key: string]: { role: string } } = {};
     for (const character of this.fullList) {
-      if (!results[character.roleName + "-clues"])
-        results[character.roleName + "-clues"] = [];
-      results[character.roleName + "-clues"].push(character.roleName);
+      results[character.roleName + "-clues"] = { role: character.roleName };
     }
     return results;
   }
   get dmChannels() {
-    const results: { [key: string]: string[] } = {};
+    const results: {
+      [key: string]: { firstRole: string; secondRole: string };
+    } = {};
     for (const firstCharacter of this.fullList) {
       for (const secondCharacter of this.fullList) {
         let channelName = `${firstCharacter.roleName}-${secondCharacter.roleName}-dm`;
@@ -38,11 +38,10 @@ class Characters {
           channelName = `${secondCharacter.roleName}-${firstCharacter.roleName}-dm`;
         }
         if (!Object.keys(results).includes(channelName)) {
-          if (!results[channelName]) results[channelName] = [];
-          results[channelName].push(
-            firstCharacter.roleName,
-            secondCharacter.roleName
-          );
+          results[channelName] = {
+            firstRole: firstCharacter.roleName,
+            secondRole: secondCharacter.roleName,
+          };
         }
       }
     }

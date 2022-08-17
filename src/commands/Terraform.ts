@@ -1,4 +1,9 @@
-import { Guild, Interaction, PermissionFlagsBits } from "discord.js";
+import {
+  Guild,
+  Interaction,
+  PermissionFlagsBits,
+  TextChannel,
+} from "discord.js";
 import Command from "./_Command";
 import Characters from "@src/Characters";
 
@@ -46,7 +51,7 @@ class Terraform extends Command {
       const cluesChannels = Characters.cluesChannels;
       for (const channel in cluesChannels) {
         if (!guildChannels.find((c) => c.name === channel)) {
-          await guild.channels.create({
+          const channelObject = await guild.channels.create({
             name: channel,
             permissionOverwrites: [
               {
@@ -58,7 +63,7 @@ class Terraform extends Command {
               },
               {
                 id: guildRoles.find(
-                  (r) => r.name === cluesChannels[channel][0]
+                  (r) => r.name === cluesChannels[channel].role
                 ),
                 allow: [PermissionFlagsBits.ViewChannel],
               },
@@ -80,13 +85,13 @@ class Terraform extends Command {
               },
               {
                 id: guildRoles.find(
-                  (r) => r.name === dmChannels[channelName][0]
+                  (r) => r.name === dmChannels[channelName].firstRole
                 ),
                 allow: [PermissionFlagsBits.ViewChannel],
               },
               {
                 id: guildRoles.find(
-                  (r) => r.name === dmChannels[channelName][1]
+                  (r) => r.name === dmChannels[channelName].secondRole
                 ),
                 allow: [PermissionFlagsBits.ViewChannel],
               },
