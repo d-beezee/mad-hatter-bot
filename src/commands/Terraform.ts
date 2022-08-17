@@ -69,6 +69,15 @@ class Terraform extends Command {
               },
             ],
           });
+          (guild.channels.cache.get(channelObject.id) as TextChannel).send({
+            files: [
+              "./src/resources/images/it/cards/characters/" +
+                cluesChannels[channel].role +
+                ".png",
+            ],
+          });
+
+          console.log(channelObject);
         }
       }
     }
